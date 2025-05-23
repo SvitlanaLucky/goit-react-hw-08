@@ -1,0 +1,91 @@
+import css from './LoginForm.module.css';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useId } from 'react';
+import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import { logIn } from '../../redux/auth/operations';
+import toast from 'react-hot-toast';
+
+const loginSchema = Yup.object().shape({
+  email: Yup.string().email('Must be a valid email!').required('Required'),
+  password: Yup.string()
+    .min(8, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+});
+
+const initialValues = {
+  email: '',
+  password: '',
+};
+
+const notifySuccess = () => toast.success('login success');
+const notifyError = () => toast.error('login error');
+
+const LoginForm = () => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = (values, actions) => {
+    dispatch(
+      logIn({
+        email: values.email,
+        password: values.password,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        notifySuccess();
+      })
+      .catch(() => {
+        notifyError();
+      });
+    actions.resetForm();
+  };
+
+  const emailFieldId = useId();
+  const pswrdFieldId = useId();
+
+  return (
+    <div>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={loginSchema}
+      >
+        <Form className={css.form}>
+          <label htmlFor={emailFieldId}>
+            <b>Email</b>
+          </label>
+          <Field
+            className={css.input}
+            type='email'
+            name='email'
+            id={emailFieldId}
+          />
+          <ErrorMessage className={css.error} name='email' component='span' />
+
+          <label htmlFor={pswrdFieldId}>
+            <b>Password</b>
+          </label>
+          <Field
+            className={css.input}
+            type='password'
+            name='password'
+            id={pswrdFieldId}
+          />
+          <ErrorMessage
+            className={css.error}
+            name='password'
+            component='span'
+          />
+
+          <button className={css.btn} type='submit'>
+            Login
+          </button>
+        </Form>
+      </Formik>
+    </div>
+  );
+};
+
+export default LoginForm;

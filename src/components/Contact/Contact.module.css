@@ -1,0 +1,50 @@
+.container {
+    border: 1px solid #000;
+    border-radius: 10px;
+    width: 320px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 20px;
+}
+
+.btnBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btnBox .btnEdit {
+    width: 64px;
+    border-radius: 5px;
+    padding: 4px;
+    font-size: 12px;
+
+    &:hover {
+        background-color: #42a5f5;
+    }
+}
+
+.btnBox .btn {
+    width: 64px;
+    border-radius: 5px;
+    padding: 4px;
+    font-size: 12px;
+
+    &:hover {
+        background-color: #ef5350;
+    }
+}
+
+.margin {
+    margin-right: 6px; }
